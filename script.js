@@ -1,15 +1,18 @@
 // This is the input for the button
+const search = document.getElementById("search");
 
 document.getElementById("btn") 
     .addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("submit");
+    fetchWeatherData();
     });
 
-// this is the weather API
+    // Weather API
 function fetchWeatherData() {
-    fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK?key=24S9KU9RJJ6BBP3MT9EMRXLF3')
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=24S9KU9RJJ6BBP3MT9EMRXLF3`)
     .then(response => response.json())
-    .then(data => console.log(data))
-    }
-fetchWeatherData();
+    .then(data => {
+        console.log(data.currentConditions.temp)
+        return data.currentConditions.temp});
+}
+
