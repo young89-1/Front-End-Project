@@ -4,6 +4,7 @@ const search = document.getElementById("search");
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
   fetchWeatherData();
+  // fetchOpenAI(); // call the fetchOpenAI function
 });
 
 // Weather API
@@ -13,33 +14,65 @@ function fetchWeatherData() {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.currentConditions.temp);
-      return data.currentConditions.temp;
+        const temp = data.currentConditions.temp
+      console.log(temp);
+      fetchOpenAI(temp)
     });
 }
 
+// Fortune populating based on Temp
+// function tempOptions(temp) {
+//   if (temp < 70) {
+//     fetchOpenAI("it is cool");
+//   } else {
+//     fetchOpenAI("it is warm");
+//   }
+// }
+
 // Make a POST request to the OpenAI API
-// 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
-function fetchOpenAI() {
+// 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
+
+// if...else statement to use different prompts based on temperature ranges
+// function fetchOpenAI(temp) {
+// let prompt;
+// if (temp < 70) {
+//     prompt = 'Tell me a new fortune for a person living in a cold temperature';
+// } else {
+//     prompt = 'Tell me a new fortune for a person living in a hot temperature';
+// }
+
+
+
+
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
       model: "text-davinci-003",
-      prompt: "Tell me a fortune for a person living in London",
+      prompt: `Tell me a fortune for a person living in a temperature of ${temp} degrees.`,     
+    //   prompt: prompt,     
       temperature: 0,
-      max_tokens: 20,
+      max_tokens: 50,
     }),
     method: "POST",
     headers: {
-      "content-type": "application/json",
-      Authorization:
-        "Bearer  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",
+      "content-type": "application/json", 
+      Authorization: "Bearer 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",
     },
-  }).then((response) => {
-    if (response.ok) {
-      response.json().then((json) => {
-        console.log(json);
-      });
-    }
-  });
+  })
+    .then((response) => {
+        console.log(response)
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("Request failed.");
+    })
+    .then((json) => {
+      console.log(json);
+
+
+      // Populate the fortune in the HTML
+      document.getElementById("fortune").textContent = json.choices[0].text;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
-// document.getElementById("fortune").textContent = response;
