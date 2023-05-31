@@ -19,7 +19,7 @@ function fetchWeatherData() {
 }
 
 // Make a POST request to the OpenAI API
-// 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
+
 function fetchOpenAI() {
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
@@ -38,8 +38,18 @@ function fetchOpenAI() {
     if (response.ok) {
       response.json().then((json) => {
         console.log(json);
+        return json;
       });
     }
   });
 }
-// document.getElementById("fortune").textContent = response;
+
+// function to hide and reveal the fortune
+function reveal() {
+  const f = document.getElementById("fortune");
+  if (f.style.display === "none") {
+    f.style.display = "block";
+  } else {
+    f.style.display = "none";
+  }
+}
