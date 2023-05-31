@@ -44,6 +44,8 @@ function fetchWeatherData() {
 
 
 
+
+function fetchOpenAI() {
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
       model: "text-davinci-003",
@@ -75,4 +77,23 @@ function fetchWeatherData() {
     .catch((error) => {
       console.error(error);
     });
+}
+//   }).then((response) => {
+//     if (response.ok) {
+//       response.json().then((json) => {
+//         console.log(json);
+//         return json;
+//       });
+//     }
+//   });
+// }
+
+// function to hide and reveal the fortune
+function reveal() {
+  const f = document.getElementById("fortune");
+  if (f.style.display === "none") {
+    f.style.display = "block";
+  } else {
+    f.style.display = "none";
+  }
 }
