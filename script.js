@@ -1,5 +1,8 @@
+console.log(openai);
+
 // This is the input for the button
 const search = document.getElementById("search");
+const fortune = document.getElementById("fortune");
 
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
@@ -10,10 +13,10 @@ document.getElementById("btn").addEventListener("click", (e) => {
 // Weather API
 function fetchWeatherData() {
   fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=24S9KU9RJJ6BBP3MT9EMRXLF3`
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=${weatherapi}`
   )
     .then((response) => response.json())
-    .then((data) => {
+    .then(async(data) => {
         const temp = data.currentConditions.temp
       console.log(temp);
 
@@ -23,20 +26,17 @@ function fetchWeatherData() {
       if (temp < 50) {
           prompt = 'It is very, very cold where I am, can you give me a fortune to help me feel better about myself that is related to my current cold temperature?';
       } else if (temp >= 50 && temp < 60) {
-          prompt = 'It is a very chilly temperature where I currently am and it is affecting my mood, can you cheer me up with a fortune that will help me feel better?';
+          prompt = 'It is cold where I am and it is affecting my mood, can you cheer me up with a fortune that will help me feel better?';
       } else if (temp >= 60 && temp < 70) {
-        prompt = 'It is a very comfortable temperature and I am feeling motivated but could use some additional inspiration, can you share a positive fortune with me?'
+        prompt = 'It is a very comfortable temperature where I am, can you share a fortune based on a nice temperature?';
       } else if (temp >= 70 && temp < 85) {
-        prompt = 'The weather is starting to get hotter where I am and it is causing me not want to do anything, can you give me a fortune that will inspire me?'
+        prompt = 'The weather is starting to get hotter where I am, can you give me a fortune that is related to my current temperature and inspire me?';
       } else if (temp >= 85) {
-        prompt = 'It is very, very hot where I am, can you give me a fortune to help me feel better about myself that is related to my current hot temperature?'
+        prompt = 'It is very, very hot where I am, can you give me a fortune to help me feel better about myself that is related to my current hot temperature?';
       }
 
-
-
-
-
-      fetchOpenAI(temp, prompt)
+    //   fetchOpenAI(temp, prompt)
+      await fetchOpenAI(temp, prompt)
     });
 }
 
@@ -64,7 +64,7 @@ function fetchWeatherData() {
 
 function fetchOpenAI(temp, prompt) {
 
-    console.log(prompt);
+    // console.log(prompt);
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
       model: "text-davinci-003",
@@ -76,7 +76,7 @@ function fetchOpenAI(temp, prompt) {
     method: "POST",
     headers: {
       "content-type": "application/json", 
-      Authorization: "Bearer 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",
+      Authorization: `Bearer ${openai}`,
     },
   })
     .then((response) => {
@@ -92,27 +92,22 @@ function fetchOpenAI(temp, prompt) {
 
       // Populate the fortune in the HTML
       document.getElementById("fortune").textContent = json.choices[0].text;
+      reveal();
     })
     .catch((error) => {
       console.error(error);
     });
 }
-//   }).then((response) => {
-//     if (response.ok) {
-//       response.json().then((json) => {
-//         console.log(json);
-//         return json;
-//       });
-//     }
-//   });
-// }
 
 // function to hide and reveal the fortune
 function reveal() {
   const f = document.getElementById("fortune");
+  // document.addEventListener("DOMContentLoaded")
   if (f.style.display === "none") {
     f.style.display = "block";
   } else {
     f.style.display = "none";
   }
 }
+
+
