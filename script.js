@@ -1,5 +1,8 @@
+console.log(openai);
+
 // This is the input for the button
 const search = document.getElementById("search");
+const fortune = document.getElementById("fortune");
 
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
@@ -10,13 +13,13 @@ document.getElementById("btn").addEventListener("click", (e) => {
 // Weather API
 function fetchWeatherData() {
   fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=24S9KU9RJJ6BBP3MT9EMRXLF3`
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=${weatherapi}`
   )
     .then((response) => response.json())
-    .then((data) => {
+    .then(async(data) => {
         const temp = data.currentConditions.temp
       console.log(temp);
-      fetchOpenAI(temp)
+      await fetchOpenAI(temp)
     });
 }
 
@@ -29,9 +32,6 @@ function fetchWeatherData() {
 //   }
 // }
 
-// Make a POST request to the OpenAI API
-// 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
-
 // if...else statement to use different prompts based on temperature ranges
 // function fetchOpenAI(temp) {
 // let prompt;
@@ -42,10 +42,7 @@ function fetchWeatherData() {
 // }
 
 
-
-
-
-function fetchOpenAI() {
+function fetchOpenAI(temp) {
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
       model: "text-davinci-003",
@@ -57,7 +54,7 @@ function fetchOpenAI() {
     method: "POST",
     headers: {
       "content-type": "application/json", 
-      Authorization: "Bearer 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",
+      Authorization: `Bearer ${openai}`,
     },
   })
     .then((response) => {
@@ -73,27 +70,22 @@ function fetchOpenAI() {
 
       // Populate the fortune in the HTML
       document.getElementById("fortune").textContent = json.choices[0].text;
+      reveal();
     })
     .catch((error) => {
       console.error(error);
     });
 }
-//   }).then((response) => {
-//     if (response.ok) {
-//       response.json().then((json) => {
-//         console.log(json);
-//         return json;
-//       });
-//     }
-//   });
-// }
 
 // function to hide and reveal the fortune
 function reveal() {
   const f = document.getElementById("fortune");
+  // document.addEventListener("DOMContentLoaded")
   if (f.style.display === "none") {
     f.style.display = "block";
   } else {
     f.style.display = "none";
   }
 }
+
+
