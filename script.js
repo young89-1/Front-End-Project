@@ -1,13 +1,20 @@
-console.log(openai);
-
 // This is the input for the button
 const search = document.getElementById("search");
 const fortune = document.getElementById("fortune");
+const input = document.getElementById("search")
 
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
   fetchWeatherData();
   // fetchOpenAI(); // call the fetchOpenAI function
+});
+
+// Have program run when someone presses enter
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("btn").click();
+  }
 });
 
 // Weather API
@@ -19,8 +26,6 @@ function fetchWeatherData() {
     .then(async(data) => {
         const temp = data.currentConditions.temp
       console.log(temp);
-
-
 
       let prompt;
       if (temp < 50) {
@@ -34,33 +39,9 @@ function fetchWeatherData() {
       } else if (temp >= 85) {
         prompt = 'It is very, very hot where I am, can you give me a fortune to help me feel better about myself that is related to my current hot temperature?';
       }
-
-    //   fetchOpenAI(temp, prompt)
       await fetchOpenAI(temp, prompt)
     });
 }
-
-// Fortune populating based on Temp
-// function tempOptions(temp) {
-//   if (temp < 70) {
-//     fetchOpenAI("it is cool");
-//   } else {
-//     fetchOpenAI("it is warm");
-//   }
-// }
-
-// Make a POST request to the OpenAI API
-// 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
-
-// if...else statement to use different prompts based on temperature ranges
-// function fetchOpenAI(temp) {
-// let prompt;
-// if (temp < 70) {
-//     prompt = 'Tell me a new fortune for a person living in a cold temperature';
-// } else {
-//     prompt = 'Tell me it is hot';
-// }
-
 
 function fetchOpenAI(temp, prompt) {
 
@@ -93,6 +74,7 @@ function fetchOpenAI(temp, prompt) {
       // Populate the fortune in the HTML
       document.getElementById("fortune").textContent = json.choices[0].text;
       reveal();
+      hide();
     })
     .catch((error) => {
       console.error(error);
@@ -102,7 +84,6 @@ function fetchOpenAI(temp, prompt) {
 // function to hide and reveal the fortune
 function reveal() {
   const f = document.getElementById("fortune");
-  // document.addEventListener("DOMContentLoaded")
   if (f.style.display === "none") {
     f.style.display = "block";
   } else {
@@ -110,4 +91,13 @@ function reveal() {
   }
 }
 
+//function to hide and reveal loading bar
+function load() {
+  const l = document.getElementById("load");
+    l.style.display = "block";
+}
 
+function hide() {
+  const l = document.getElementById("load");
+  l.style.display = "none";
+}
