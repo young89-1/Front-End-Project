@@ -1,13 +1,23 @@
-console.log(openai);
-
 // This is the input for the button
 const search = document.getElementById("search");
 const fortune = document.getElementById("fortune");
+const input = document.getElementById("search")
 
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
   fetchWeatherData();
   // fetchOpenAI(); // call the fetchOpenAI function
+});
+
+// Execute a function when the user presses a key on the keyboard
+input.addEventListener("keypress", (e) => {
+  // If the user presses the "Enter" key on the keyboard
+  if (e.key === "Enter") {
+        // Cancel the default action, if needed
+        e.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("btn").click();
+  }
 });
 
 // Weather API
@@ -19,8 +29,6 @@ function fetchWeatherData() {
     .then(async(data) => {
         const temp = data.currentConditions.temp
       console.log(temp);
-
-
 
       let prompt;
       if (temp < 50) {
@@ -39,28 +47,6 @@ function fetchWeatherData() {
       await fetchOpenAI(temp, prompt)
     });
 }
-
-// Fortune populating based on Temp
-// function tempOptions(temp) {
-//   if (temp < 70) {
-//     fetchOpenAI("it is cool");
-//   } else {
-//     fetchOpenAI("it is warm");
-//   }
-// }
-
-// Make a POST request to the OpenAI API
-// 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
-
-// if...else statement to use different prompts based on temperature ranges
-// function fetchOpenAI(temp) {
-// let prompt;
-// if (temp < 70) {
-//     prompt = 'Tell me a new fortune for a person living in a cold temperature';
-// } else {
-//     prompt = 'Tell me it is hot';
-// }
-
 
 function fetchOpenAI(temp, prompt) {
 
@@ -110,4 +96,12 @@ function reveal() {
   }
 }
 
+function load() {
+  const l = document.getElementById("load");
+  if (l.style.display === "none") {
+    l.style.display = "block";
+  } else {
+    l.style.display = "none";
+  }
+}
 
