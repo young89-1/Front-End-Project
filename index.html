@@ -25,7 +25,6 @@
     <br>
 <!-- created row to put columns in -->
     <div class="row">
-
     <div class=" col"></div>
 <!-- put input in center column -->
     <div class=" col text-center bg-warning border bg-gradient p-1">
@@ -33,18 +32,20 @@
     <input type="text" id="search">
     <br> <br> 
 
-    <button id="btn" class="btn fw-bold fs-5 btn-outline-danger" onclick="reveal()">Create Your Fortune</button></input>
+    <button id="btn" class="btn fw-bold fs-5 btn-outline-danger" onclick="load();reveal()">Create Your Fortune</button></input>
     <br>
     </div>
     <div class="col p-1"></div>
     </div>
 <br>
+
+<!-- added loading bar -->
 <div class="d-flex justify-content-center">
-<div class="spinner-border text-warning collapse" id="load" role="status">
-  <span class="sr-only"></span>
+<div id="load" class="spinner-border text-warning collapse">
 </div>
 </div>
 <br>
+
 <!-- card to hold the fortune -->
 <div class="card bg-white w-25 m-auto fst-italic text-center">
 <div id="fortune" class="card-body collapse"></p>
@@ -52,6 +53,7 @@
 </div>
 <br>
 <br>
+
 <!-- added fortune cookie image -->
     <div class="text-center"><img src="/fortune-cookie-biscuits-candy-corn-food-fried-egg-fortune-cookie-b14bc992b9304409e0e0c9d5d87fbc0c.png" class="image-fluid" width="20%"></div>
 

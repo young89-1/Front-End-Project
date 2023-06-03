@@ -9,13 +9,10 @@ document.getElementById("btn").addEventListener("click", (e) => {
   // fetchOpenAI(); // call the fetchOpenAI function
 });
 
-// Execute a function when the user presses a key on the keyboard
+// Have program run when someone presses enter
 input.addEventListener("keypress", (e) => {
-  // If the user presses the "Enter" key on the keyboard
   if (e.key === "Enter") {
-        // Cancel the default action, if needed
         e.preventDefault();
-        // Trigger the button element with a click
         document.getElementById("btn").click();
   }
 });
@@ -42,8 +39,6 @@ function fetchWeatherData() {
       } else if (temp >= 85) {
         prompt = 'It is very, very hot where I am, can you give me a fortune to help me feel better about myself that is related to my current hot temperature?';
       }
-
-    //   fetchOpenAI(temp, prompt)
       await fetchOpenAI(temp, prompt)
     });
 }
@@ -79,6 +74,7 @@ function fetchOpenAI(temp, prompt) {
       // Populate the fortune in the HTML
       document.getElementById("fortune").textContent = json.choices[0].text;
       reveal();
+      hide();
     })
     .catch((error) => {
       console.error(error);
@@ -88,7 +84,6 @@ function fetchOpenAI(temp, prompt) {
 // function to hide and reveal the fortune
 function reveal() {
   const f = document.getElementById("fortune");
-  // document.addEventListener("DOMContentLoaded")
   if (f.style.display === "none") {
     f.style.display = "block";
   } else {
@@ -96,12 +91,13 @@ function reveal() {
   }
 }
 
+//function to hide and reveal loading bar
 function load() {
   const l = document.getElementById("load");
-  if (l.style.display === "none") {
     l.style.display = "block";
-  } else {
-    l.style.display = "none";
-  }
 }
 
+function hide() {
+  const l = document.getElementById("load");
+  l.style.display = "none";
+}
