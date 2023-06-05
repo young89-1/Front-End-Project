@@ -3,6 +3,7 @@ const search = document.getElementById("search");
 const fortune = document.getElementById("fortune");
 const input = document.getElementById("search");
 
+// Program runs when button is clicked
 document.getElementById("btn").addEventListener("click", (e) => {
   e.preventDefault();
   fetchWeatherData();
@@ -21,6 +22,8 @@ function fetchWeatherData() {
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=${weatherapi}`
   )
+
+  // This code is making a request to a weather API and retrieving the temperature data from the response
     .then((response) => response.json())
     .then(async (data) => {
       const temp = data.currentConditions.temp;
@@ -46,8 +49,9 @@ function fetchWeatherData() {
     });
 }
 
+// Open AI API
 function fetchOpenAI(temp, prompt) {
-  // console.log(prompt);
+
   fetch(`https://api.openai.com/v1/completions`, {
     body: JSON.stringify({
       model: "text-davinci-003",
@@ -72,7 +76,7 @@ function fetchOpenAI(temp, prompt) {
     .then((json) => {
       console.log(json);
 
-      // Populate the fortune in the HTML + reveal card
+// Populate the fortune in the HTML + reveal card
       document.getElementById("fortune").textContent = json.choices[0].text;
       reveal();
       // run the function that hides loading bar
