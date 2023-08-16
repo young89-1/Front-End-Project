@@ -20,7 +20,7 @@ input.addEventListener("keypress", (e) => {
 // Weather API
 function fetchWeatherData() {
   fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=${weatherapi}`
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search.value}?key=${process.env.weatherapi}`
   )
 
   // This code is making a request to a weather API and retrieving the temperature data from the response
