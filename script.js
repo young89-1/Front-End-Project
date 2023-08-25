@@ -27,7 +27,6 @@ function fetchWeatherData() {
     .then((response) => response.json())
     .then(async (data) => {
       const temp = data.currentConditions.temp;
-      console.log(temp);
       let prompt;
       if (temp < 50) {
         prompt =
