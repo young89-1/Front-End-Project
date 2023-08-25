@@ -1,10 +1,8 @@
 // This is the input for the button
-const secrets = require('./secrets');
-console.log(secrets)
 const search = document.getElementById("search");
 const fortune = document.getElementById("fortune");
 const input = document.getElementById("search");
-
+const weatherapi = "24S9KU9RJJ6BBP3MT9EMRXLF3"
 
 // Program runs when button is clicked
 document.getElementById("btn").addEventListener("click", (e) => {
